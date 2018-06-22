@@ -4,13 +4,14 @@ setup_git() {
 }
 
 commit_files() {
+  git checkout -b travic
   git add .
   git commit --message "Travis build: $TRAVIS_BUILD_NUMBER"
 }
 
 upload_files() {
   git remote add origin https://${GITHUB_API_KEY}@github.com/avisoftware/ray-tracing.git > /dev/null 2>&1
-  git push --quiet --set-upstream origin master
+  git push --quiet --set-upstream origin travic
 }
 
 setup_git
