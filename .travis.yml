@@ -1,0 +1,6 @@
+language: java
+sudo: false
+after_success:
+  - ./push.sh
+notifications: 
+  - avisoftware123@gmail.com
