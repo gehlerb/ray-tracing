@@ -19,8 +19,8 @@ Like:
 - [x] Reflections
 - [x] Transparency 
 - [x] Depth Of Field
-- [x] MultiThread
-######Not Implemented Yet
+- [x] MultiThread  
+###### Not Implemented Yet
 - [ ] More Geometries
 - [ ] Soft Shadows
 - [ ] Super Sampling
@@ -28,10 +28,10 @@ Like:
 - [ ] Pattern Material 
 - [ ] BVH (Performance)
 
-###Performance
+### Performance
 When we talk about **Ray Tracing**, performance it's always the biggest issue.  
 The more you want your image to be more realistic, you'll have a performance issue.
 In my project, my focus was on the "realistic" side of the Ray Tracing. so, currently the performance is really poor.
 But in the future i will handle it.
 
-###Examples
+### Examples
