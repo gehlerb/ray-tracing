@@ -10,8 +10,8 @@ commit_files() {
 }
 
 upload_files() {
-  git remote add origin https://${GITHUB_API_KEY}@github.com/avisoftware/ray-tracing.git > /dev/null 2>&1
-  git push --quiet --set-upstream origin travic
+  git remote add origin-build https://${GITHUB_API_KEY}@github.com/avisoftware/ray-tracing.git > /dev/null 2>&1
+  git push --quiet --set-upstream origin-build travic
 }
 
 setup_git
