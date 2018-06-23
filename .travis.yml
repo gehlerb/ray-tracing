@@ -1,5 +1,7 @@
 language: java
 sudo: false
+script: 
+- travis_wait 350 mvn test -B
 after_success:
 - "./push.sh"
 notifications:
