@@ -186,7 +186,7 @@ public class AdvanceRenderTest {
     }
 
     //====extra tests====//
-    //@Test
+    @Test
     public void streetTest(){
         Scene scene = new Scene("Test");
         Camera camera = new Camera(new Point3D(-270, -280, 710), new Vector(0, -1, 0), new Vector(0, 0, -1));
