@@ -1,4 +1,5 @@
-![Grade: 100](https://img.shields.io/badge/Grade-100-brightgreen.svg)
+![Grade: 100](https://img.shields.io/badge/Grade-100-brightgreen.svg) 
+[![Build Status](https://travis-ci.org/avisoftware/ray-tracing.svg?branch=master)](https://travis-ci.org/avisoftware/ray-tracing)
 # Ray Tracing
 This is a project i did with @udcode in **Introduction to Software Engineering** course.  
 This course is part of my bachelor's degree in Computer science at **JCT (Lev Academic Center)**.
