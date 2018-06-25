@@ -22,6 +22,7 @@ public class AdvanceRenderTest {
         scene.setCamera(new Camera(new Point3D(0, -200, -730),new Vector(0, -1, 0), new Vector(0,0,1)));
         //scene.getCamera().rotateX(10);
         scene.getCamera().setApertureSize(15);
+        scene.getCamera().setNumOfDOFRays(200);
         scene.getCamera().setFocalLength(80);
         scene.getCamera().setDOF(true);
 
@@ -186,7 +187,7 @@ public class AdvanceRenderTest {
     }
 
     //====extra tests====//
-    @Test
+   // @Test
     public void streetTest(){
         Scene scene = new Scene("Test");
         Camera camera = new Camera(new Point3D(-270, -280, 710), new Vector(0, -1, 0), new Vector(0, 0, -1));

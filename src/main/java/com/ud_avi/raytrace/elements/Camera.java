@@ -11,6 +11,7 @@ import com.ud_avi.raytrace.primitives.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Camera is the Class that represent the Camera in the scene
@@ -22,8 +23,8 @@ public class Camera {
    private Vector _rightVector;
    private double _focalLength;
    private double _apertureSize;
-    private int _numOfDOFRays = 24;
-    private Boolean _isDOF = false;
+   private int _numOfDOFRays = 24;
+   private Boolean _isDOF = false;
 
     // ***************** Constructors ********************** //
 
@@ -135,6 +136,14 @@ public class Camera {
        return num;
     }
 
+    /**
+     * Use this to avoid "Noisy" images. the number of rays should be in proportion to the aperture size
+     * @param numOfDOFRays the number
+     */
+    public void setNumOfDOFRays(int numOfDOFRays) {
+        _numOfDOFRays = numOfDOFRays;
+    }
+
     // ***************** Operations ******************** //
     /**
      * Construct the Rays from the Camera to the place in te view plane
@@ -207,71 +216,26 @@ public class Camera {
      * @return Rays from the view plane
      */
     private List<Ray> constructDOFRays(Ray mainRay){
-        double halfSize = _apertureSize /2;
-
         Vector mainVector = mainRay.getDirection();
         Point3D mainPoint = mainRay.getPoint();
 
         //focal point = point + vector * focal length
         ArrayList<Ray> listOfRays = new ArrayList<>();
         Point3D focalPoint = mainPoint.addVector(mainVector.scale(_focalLength));
-        //calc the point and vectors
-        Point3D halfUpPoint = mainPoint.addVector(_upVector.scale(halfSize));
-        Point3D fullUpPoint = mainPoint.addVector(_upVector.scale(_apertureSize));
-        Point3D halfDownPoint = mainPoint.addVector(_upVector.scale(-halfSize));
-        Point3D fullDownPoint = mainPoint.addVector(_upVector.scale(-_apertureSize));
-        Vector halfRight = _rightVector.scale(halfSize);
-        Vector fullRight = _rightVector.scale(_apertureSize);
-        Vector halfLeft = _rightVector.scale(-halfSize);
-        Vector fullLeft = _rightVector.scale(-_apertureSize);
+        for (int i = 0; i < _numOfDOFRays; ++i){
+            double r1 = ThreadLocalRandom.current().nextDouble(-_apertureSize,_apertureSize);
+            double r2 = ThreadLocalRandom.current().nextDouble(-_apertureSize,_apertureSize);
 
-        //the middle rays
-        Ray halfUpRay = new Ray(focalPoint.subtract(halfUpPoint),halfUpPoint);
-        Ray fullUpRay = new Ray(focalPoint.subtract(fullUpPoint),fullUpPoint);
-        Ray halfDownRay = new Ray(focalPoint.subtract(halfDownPoint),halfDownPoint);
-        Ray fullDownRay = new Ray(focalPoint.subtract(fullDownPoint),fullDownPoint);
+            if(Coordinate.ZERO.equals(r1))
+                r1 = 0.1;
+            if(Coordinate.ZERO.equals(r2))
+                r2 = 0.1;
 
-        listOfRays.add(halfUpRay);
-        listOfRays.add(fullUpRay);
-        listOfRays.add(halfDownRay);
-        listOfRays.add(fullDownRay);
-
-        //crate map like
-        for(int i = 1;i<5;++i){
-            switch (i){
-                case 1:
-                    mainPoint = halfUpPoint;
-                    break;
-                case 2:
-                    mainPoint = fullUpPoint;
-                    break;
-                case 3:
-                    mainPoint = halfDownPoint;
-                    break;
-                case 4:
-                    mainPoint = fullDownPoint;
-                    break;
-
-            }
-
-            Point3D point1 = mainPoint.addVector(halfRight);
-            Ray focalRay6 = new Ray(focalPoint.subtract(point1),point1);
-            listOfRays.add(focalRay6);
-
-            Point3D point2 = mainPoint.addVector(fullRight);
-            Ray focalRay7 = new Ray(focalPoint.subtract(point2),point2);
-            listOfRays.add(focalRay7);
-
-            Point3D point3 = mainPoint.addVector(halfLeft);
-            Ray focalRay8 = new Ray(focalPoint.subtract(point3),point3);
-            listOfRays.add(focalRay8);
-
-            Point3D point4 = mainPoint.addVector(fullLeft);
-            Ray focalRay9 = new Ray(focalPoint.subtract(point4),point4);
-            listOfRays.add(focalRay9);
-
+            Point3D rPoint = mainPoint.addVector(_upVector.scale(r1)).addVector(_rightVector.scale(r2));
+            Ray focalRay = new Ray(focalPoint.subtract(rPoint),rPoint);
+            listOfRays.add(focalRay);
         }
-        //set the rays from the view plane
+
         return listOfRays;
     }
     /**
