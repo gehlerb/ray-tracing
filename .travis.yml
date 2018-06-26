@@ -1,7 +1,6 @@
 language: java
 sudo: false
 script:
-- while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
 - mvn cobertura:cobertura
 after_success:
 - "./push.sh"
