@@ -21,8 +21,8 @@ public class AdvanceRenderTest {
         Scene scene = new Scene("Test mirror");
         scene.setCamera(new Camera(new Point3D(0, -200, -730),new Vector(0, -1, 0), new Vector(0,0,1)));
         //scene.getCamera().rotateX(10);
-        scene.getCamera().setApertureSize(15);
-        scene.getCamera().setNumOfDOFRays(200);
+        scene.getCamera().setApertureSize(1.5);
+        scene.getCamera().setNumOfDOFRays(30);
         scene.getCamera().setFocalLength(80);
         scene.getCamera().setDOF(true);
 
@@ -147,7 +147,7 @@ public class AdvanceRenderTest {
 //        lights.add(new SpotLight(new Color(150,150,45),new Point3D(-50,-350,150),1,0,0.001,new Vector(0,0,1)));
         lights.add(new DirectionalLight(new Color(200,200,200),new Vector(0,-2,1)));
         scene.setLightSources(lights);
-        ImageWriter imageWriter = new ImageWriter("Dof_f360fl180A", 1000, 1000, 1000, 1000);
+        ImageWriter imageWriter = new ImageWriter("Dof_f360fl180A", 500, 500, 500, 500);
         Render testRender = new Render(imageWriter,scene);
         testRender.setMultiThread(true);
 
