@@ -1,5 +1,8 @@
 language: java
 sudo: false
+branches:
+  except:
+  - travis
 script:
 - mvn cobertura:cobertura
 after_success:

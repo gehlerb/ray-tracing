@@ -86,6 +86,7 @@ public class Render {
 
         if (_multiThread) {//use multi thread
             final ThreadPoolExecutor executor = new ThreadPoolExecutor(4, 4, 1, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
+            System.out.print("Number of Threads: " + numberOfThreads().toString());
             //go for every pixel and calculate the color
             for (int i = 1; i < Nx; ++i) {
                 for (int j = 1; j < Ny; ++j) {
@@ -148,6 +149,15 @@ public class Render {
         }
     }
 
+    /**
+     * @return Number of Threads in system
+     */
+    private Integer numberOfThreads() {
+        if (System.getenv("THREADS") != null)
+            return Math.max(1, Integer.parseInt(System.getenv("THREADS")));
+        else
+            return Runtime.getRuntime().availableProcessors();
+    }
 
     /**
      * Print grid on the background of the image
