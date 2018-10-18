@@ -167,4 +167,20 @@ public class Tube extends RadialGeometry {
         }
         return map;
     }
+
+    /**
+     * @return the max point of the "Cube" contains the geometry
+     */
+    @Override
+    public Point3D getMax() {
+        return null;
+    }
+
+    /**
+     * @return the min point of the "Cube" contains the geometry
+     */
+    @Override
+    public Point3D getMin() {
+        return null;
+    }
 }

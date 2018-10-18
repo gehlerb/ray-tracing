@@ -110,4 +110,26 @@ public class Sphere extends RadialGeometry {
 
         return map;
     }
+
+    /**
+     * @return the max point of the "Cube" contains the geometry
+     */
+    @Override
+    public Point3D getMax() {
+        return new Point3D(
+                _point.getX().getCoord()+_radius,
+                _point.getY().getCoord()+_radius,
+                _point.getZ().getCoord()+_radius);
+    }
+
+    /**
+     * @return the min point of the "Cube" contains the geometry
+     */
+    @Override
+    public Point3D getMin() {
+        return new Point3D(
+                _point.getX().getCoord()-_radius,
+                _point.getY().getCoord()-_radius,
+                _point.getZ().getCoord()-_radius);
+    }
 }

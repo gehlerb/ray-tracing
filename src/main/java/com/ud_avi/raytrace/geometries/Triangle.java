@@ -106,4 +106,27 @@ public class Triangle extends Plane {
 
         return map;
     }
+
+    /**
+     * @return the max point of the "Cube" contains the geometry
+     * TODO: make sure that this is correct
+     */
+    @Override
+    public Point3D getMax() {
+        double x =Double.max(_pointA.getX().getCoord(), Double.max(_pointB.getX().getCoord(), _pointC.getX().getCoord()));
+        double y =Double.max(_pointA.getY().getCoord(), Double.max(_pointB.getY().getCoord(), _pointC.getY().getCoord()));
+        double z =Double.max(_pointA.getZ().getCoord(), Double.max(_pointB.getZ().getCoord(), _pointC.getZ().getCoord()));
+        return new Point3D(x,y,z);
+    }
+
+    /**
+     * @return the min point of the "Cube" contains the geometry
+     */
+    @Override
+    public Point3D getMin() {
+        double x =Double.min(_pointA.getX().getCoord(), Double.min(_pointB.getX().getCoord(), _pointC.getX().getCoord()));
+        double y =Double.min(_pointA.getY().getCoord(), Double.min(_pointB.getY().getCoord(), _pointC.getY().getCoord()));
+        double z =Double.min(_pointA.getZ().getCoord(), Double.min(_pointB.getZ().getCoord(), _pointC.getZ().getCoord()));
+        return new Point3D(x,y,z);
+    }
 }

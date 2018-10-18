@@ -68,4 +68,28 @@ public class Rectangle extends Plane {
 
         return map;
     }
+
+    /**
+     * @return the max point of the "Cube" contains the geometry
+     */
+    @Override
+    public Point3D getMax() {
+        Point3D D = new Point3D(new Vector(_B.subtract(_A)).add(new Vector(_C.subtract(_A))).getHead());
+        double x = Double.max(_A.getX().getCoord(), Double.max(_B.getX().getCoord(), Double.max( _C.getX().getCoord(),D.getX().getCoord())));
+        double y = Double.max(_A.getY().getCoord(), Double.max(_B.getY().getCoord(), Double.max( _C.getY().getCoord(),D.getY().getCoord())));
+        double z = Double.max(_A.getZ().getCoord(), Double.max(_B.getZ().getCoord(), Double.max( _C.getZ().getCoord(),D.getZ().getCoord())));
+        return new Point3D(x,y,z);
+    }
+
+    /**
+     * @return the min point of the "Cube" contains the geometry
+     */
+    @Override
+    public Point3D getMin() {
+        Point3D D = new Point3D(new Vector(_B.subtract(_A)).add(new Vector(_C.subtract(_A))).getHead());
+        double x =Double.min(_A.getX().getCoord(), Double.min(_B.getX().getCoord(), Double.min( _C.getX().getCoord(),D.getX().getCoord())));
+        double y =Double.min(_A.getY().getCoord(), Double.min(_B.getY().getCoord(), Double.min( _C.getY().getCoord(),D.getY().getCoord())));
+        double z =Double.min(_A.getZ().getCoord(), Double.min(_B.getZ().getCoord(), Double.min( _C.getZ().getCoord(),D.getZ().getCoord())));
+        return new Point3D(x,y,z);
+    }
 }
