@@ -12,11 +12,14 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class BasicRenderTest {
+    private static Logger log = Logger.getLogger(BasicRenderTest.class.getName());
 
     @Test
     public void basicRendering(){
+        log.info(Thread.currentThread().getStackTrace()[1].getMethodName()+" now running...");
         Scene scene = new Scene("Test scene");
         scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, 1)));
         scene.setDistance(100);
@@ -47,6 +50,7 @@ public class BasicRenderTest {
     }
     @Test
     public void aviRendering() {
+        log.info(Thread.currentThread().getStackTrace()[1].getMethodName()+" now running...");
         Scene scene = new Scene("Test scene");
         scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, 1)));
         scene.setDistance(100);
@@ -120,6 +124,7 @@ public class BasicRenderTest {
     }
     @Test
     public void lectureTest(){
+        log.info(Thread.currentThread().getStackTrace()[1].getMethodName()+" now running...");
         Scene scene = new Scene("Test scene");
         scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, -1)));
         scene.setDistance(100);
@@ -143,6 +148,7 @@ public class BasicRenderTest {
 
     @Test
     public void tubeTest(){
+        log.info(Thread.currentThread().getStackTrace()[1].getMethodName()+" now running...");
         Scene scene = new Scene("Test scene");
         scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, -1)));
         scene.setDistance(1000);
@@ -164,6 +170,7 @@ public class BasicRenderTest {
     }
     @Test
     public void emissionTest() {
+        log.info(Thread.currentThread().getStackTrace()[1].getMethodName()+" now running...");
         Triangle t1 = new Triangle(new Point3D(100, 0, -49), new Point3D(0, 100, -49), new Point3D(100, 100, -49), new Color(150, 0, 0), new Material(500, 0.5, 1, 1, 100));
         Triangle t2 = new Triangle(new Point3D(-100, 0, -49), new Point3D(0, 100, -49), new Point3D(-100, 100, -49), new Color(0, 150, 0),
                 new Material(500, 0.5, 1, 1, 100));
@@ -184,7 +191,7 @@ public class BasicRenderTest {
         geometries.addGeometry(t3);
         geometries.addGeometry(t4);
         geometries.addGeometry(s);
-        ImageWriter testImageWriter = new ImageWriter("emission", 500, 500, 500, 500);
+        ImageWriter testImageWriter = new ImageWriter("emission1", 500, 500, 500, 500);
         Render testRender = new Render(testImageWriter,testScene);
 
         testRender.renderImage();
@@ -193,6 +200,7 @@ public class BasicRenderTest {
     }
     @Test
     public void pointLightTest() {
+        log.info(Thread.currentThread().getStackTrace()[1].getMethodName()+" now running...");
         Scene scene = new Scene("Test light");
         scene.setCamera(new Camera(new Point3D(0, 0, 0),new Vector(0, -1, 0), new Vector(0, 0, -1)));
         scene.setDistance(100);
@@ -218,7 +226,7 @@ public class BasicRenderTest {
     }
     @Test
     public void testSphere() {
-
+        log.info(Thread.currentThread().getStackTrace()[1].getMethodName()+" now running...");
         Sphere sphere = new Sphere(new Color(16, 71, 160),  new Point3D(-30,-20,150),60,new Material(0.7,0.8, 1, 1, 100));
         Sphere noose = new Sphere(new Color(86, 7, 32),  new Point3D(-30,35,100),10,new Material(0.7,0.8, 1, 1, 100));
         Sphere rightEye = new Sphere(new Color(86, 7, 32),  new Point3D(-17,20,110),5,new Material(0.7,0.8, 1, 1, 100));
@@ -258,8 +266,7 @@ public class BasicRenderTest {
     }
     @Test
     public void testPlaneWithTowLights() {
-
-        Plane plane = new Plane(new Point3D(0,0,-150),new Vector(0,0,1),new Color(0,0,0), new Material(1,1, 0, 0, 500));
+        log.info(Thread.currentThread().getStackTrace()[1].getMethodName()+" now running...");
         Camera camera = new Camera(Point3D.ZERO_P3D, new Vector(0,-1,0), new Vector(0,0,-1));
         Scene scene = new Scene("test");
 
@@ -269,7 +276,6 @@ public class BasicRenderTest {
         Geometries geometries = new Geometries();
         scene.setGeometries(geometries);
         List<LightSource> lightSources = new ArrayList<>();
-        scene.addGeometry(plane);
         scene.setLightSources(lightSources);
         scene.setAmbientLight(new AmbientLight(new Color(50,50,50),0.5));
         scene.addLightSource(spot1);
@@ -288,7 +294,7 @@ public class BasicRenderTest {
     }
     @Test
     public void testRectangle() {
-
+        log.info(Thread.currentThread().getStackTrace()[1].getMethodName()+" now running...");
         Rectangle plane = new Rectangle(new Point3D(-25,-25,-120),new Point3D(-25,25,-120),
                 new Point3D(25,-25,-120),
                 new Color(150,150,150), new Material(1,1, 0, 0, 500));
@@ -320,6 +326,7 @@ public class BasicRenderTest {
     }
     @Test
     public void testDirectionLight() {
+        log.info(Thread.currentThread().getStackTrace()[1].getMethodName()+" now running...");
         //Camera camera = new Camera(new Point3D(0,-6,0), new Vector(8,-80,-16), new Vector(4,2,-8));
         Camera camera = new Camera(new Point3D(0,-6,0), new Vector(0,-1,0), new Vector(0,0,-1));
         camera.rotateX(12);
@@ -337,7 +344,6 @@ public class BasicRenderTest {
         Material simpleMaterial = new Material(1,1, 0, 0, 500);
 
         Color qColor = new Color(170,228,48);
-        Plane plane = new Plane(new Point3D(-1,0,0),new Point3D(0,0,-1),new Point3D(1,0,0),new Color(63,63,63), new Material(1,1, 0, 0, 500));
         Rectangle rec1 = new Rectangle(J,F,K, qColor, simpleMaterial);
         Rectangle rec2 = new Rectangle(N,M,O, qColor, simpleMaterial);
         Rectangle rec3 = new Rectangle(M,F,L, qColor, simpleMaterial);
@@ -349,7 +355,6 @@ public class BasicRenderTest {
         DirectionalLight directionalLight = new DirectionalLight(new Color(255,255,172),new Vector(-8,2,-8));
 
         Geometries geometries = new Geometries();
-        geometries.addGeometry(plane);
         geometries.addGeometry(rec1);
         geometries.addGeometry(rec2);
         geometries.addGeometry(rec3);
@@ -362,7 +367,6 @@ public class BasicRenderTest {
         List<LightSource> lightSources = new ArrayList<>();
         lightSources.add(directionalLight);
 
-        scene.addGeometry(plane);
         scene.setLightSources(lightSources);
         scene.setAmbientLight(new AmbientLight(new Color(50,50,50),0.1));
 
@@ -381,12 +385,12 @@ public class BasicRenderTest {
 
     @Test
     public void testTransparency() {
+        log.info(Thread.currentThread().getStackTrace()[1].getMethodName()+" now running...");
         Camera camera = new Camera(new Point3D(0,0,100), new Vector(0,-1,0), new Vector(0,0,-1));
         Scene scene = new Scene("test");
 
         SpotLight spot1 = new SpotLight(new Color(196, 249, 220),new Point3D(15,-4,10),
                 1,0.001, 0.001, new Vector(-1,-1,-1));
-        Plane p = new Plane(new Point3D(0, 1, -1000), new Vector(0, 0, -1), new Color(82, 255, 134),new Material(1, 1, 0, 0, 2));
 
         Sphere innerSphere = new Sphere(new Color(82, 85, 134),new Point3D(0,0,-600),
                 250,new Material(4,5, 0, 0, 100));
@@ -396,7 +400,6 @@ public class BasicRenderTest {
         Geometries geometries = new Geometries();
         scene.setGeometries(geometries);
         List<LightSource> lightSources = new ArrayList<>();
-        geometries.addGeometry(p);
 
         scene.addGeometry(innerSphere);
         scene.addGeometry(outerSphere);
@@ -420,6 +423,7 @@ public class BasicRenderTest {
 
     @Test
     public void reflectTest() {
+        log.info(Thread.currentThread().getStackTrace()[1].getMethodName()+" now running...");
         Scene scene = new Scene("Test reflect");
         scene.setCamera(new Camera(new Point3D(0, 0, 0),new Vector(0, -1, 0), new Vector(0, 0, 1)));
         scene.setDistance(100);
@@ -444,6 +448,7 @@ public class BasicRenderTest {
 
     @Test
     public void tubeWithLightTest(){
+        log.info(Thread.currentThread().getStackTrace()[1].getMethodName()+" now running...");
         Scene scene = new Scene("Test scene");
         scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, -1)));
         scene.setDistance(50);
@@ -472,6 +477,7 @@ public class BasicRenderTest {
 
     @Test
     public void shadowTest() {
+        log.info(Thread.currentThread().getStackTrace()[1].getMethodName()+" now running...");
         Scene scene = new Scene("Test shadow");
         scene.setCamera(new Camera(new Point3D(0, 0, -150),new Vector(0, -1, 0), new Vector(0, 0, 1)));
         scene.setDistance(100);
@@ -499,6 +505,7 @@ public class BasicRenderTest {
 
     @Test
     public void reflectTest1() {
+        log.info(Thread.currentThread().getStackTrace()[1].getMethodName()+" now running...");
         Scene scene = new Scene("Test reflect1");
         scene.setCamera(new Camera(new Point3D(0,0,-100),new Vector(0, -1, 0), new Vector(0, 0, 1)));
         scene.setDistance(100);
@@ -530,6 +537,7 @@ public class BasicRenderTest {
     }
     @Test
     public void mirrorsTest(){
+        log.info(Thread.currentThread().getStackTrace()[1].getMethodName()+" now running...");
         Scene scene = new Scene("Test mirror");
         scene.setCamera(new Camera(new Point3D(0, -78, -505),new Vector(0, -1, 0), new Vector(0,0,1)));
         //scene.getCamera().rotateX(10);
@@ -537,12 +545,6 @@ public class BasicRenderTest {
         scene.setBackgroundColor(new Color(0,0,0));
         scene.setAmbientLight(new AmbientLight(new Color(50, 50, 50), 0.1));
         Geometries geometries = new Geometries();
-        Plane p = new Plane(new Point3D(1, 0, -50),new Point3D(2, 0, 0) ,new Point3D(31, 0, 50),
-                new Color(25, 25, 25),
-                new Material(2, 10, 0.1, 0, 20));
-        Plane p2 = new Plane(new Point3D(1, 50, 250),new Point3D(2, 0, 250) ,new Point3D(31, -30, 250),
-                new Color(70, 50, 60),
-                new Material(1, 1, 0.8, 0, 20));
 
 
         Sphere sphereRed = new Sphere( new Color(255, 0, 0),new Point3D(-170, -78, 80),75,
@@ -556,7 +558,6 @@ public class BasicRenderTest {
         geometries.addGeometry(sphereGreen);
         geometries.addGeometry(sphereBlue);
 
-        geometries.addGeometry(p);
         //geometries.addGeometry(p2);
         //geometries.addGeometry(rec3);
 
@@ -578,6 +579,7 @@ public class BasicRenderTest {
 
     @Test
     public void testTransparent() {
+        log.info(Thread.currentThread().getStackTrace()[1].getMethodName()+" now running...");
         Scene scene = new Scene("Test");
         scene.setAmbientLight(new AmbientLight(new Color(50, 50, 50), 0.2));
         scene.setBackgroundColor(new Color(0, 0, 0));
@@ -608,6 +610,7 @@ public class BasicRenderTest {
 
     @Test
     public void dofBasicTest(){
+        log.info(Thread.currentThread().getStackTrace()[1].getMethodName()+" now running...");
         Scene scene = new Scene("Test mirror");
         scene.setCamera(new Camera(new Point3D(0, -200, -705),new Vector(0, -1, 0), new Vector(0,0,1)));
         //scene.getCamera().rotateX(10);
@@ -619,10 +622,11 @@ public class BasicRenderTest {
         scene.setBackgroundColor(new Color(0,0,0));
         scene.setAmbientLight(new AmbientLight(new Color(50, 50, 50), 0.1));
         Geometries geometries = new Geometries();
-        Plane p = new Plane(new Point3D(1, 0, -50),new Point3D(2, 0, 0) ,new Point3D(31, 0, 50),
-                new Color(25, 25, 25),
-                new Material(2, 10, 0.1, 0, 20));
+
         Rectangle rec = new Rectangle(new Point3D(-500, 0, 250),new Point3D(-500, -500, 250) ,new Point3D(500, 0, 250),
+                new Color(70, 50, 60),
+                new Material(1, 1, 0.1, 0, 120));
+        Rectangle rec3 = new Rectangle(new Point3D(-500, 0, 0),new Point3D(-500, 0, 250) ,new Point3D(500, 0, 0),
                 new Color(70, 50, 60),
                 new Material(1, 1, 0.1, 0, 120));
 
@@ -638,9 +642,8 @@ public class BasicRenderTest {
         geometries.addGeometry(sphereGreen);
         geometries.addGeometry(sphereBlue);
 
-        geometries.addGeometry(p);
         geometries.addGeometry(rec);
-        //geometries.addGeometry(rec3);
+        geometries.addGeometry(rec3);
 
         scene.setGeometries(geometries);
         List<LightSource> lights = new ArrayList<>();

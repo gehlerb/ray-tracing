@@ -76,4 +76,14 @@ public class SphereTests {
         return list;
     }
 
+    @Test
+    public void testGetMax(){
+
+    }
+
+    @Test
+    public void testGetMin(){
+
+    }
+
 }

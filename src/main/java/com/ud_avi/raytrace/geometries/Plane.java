@@ -15,9 +15,10 @@ import java.util.Map;
 import com.ud_avi.raytrace.primitives.*;
 
 /**
- * Plane is Class that represent Plane in 3D world
+ * Plane is an abstract Class that represent Plane in 3D world
+ **** This class is an abstract class because you can't wrap a plane into Voxel ****
  */
-public class Plane extends Geometry implements Intersectable {
+public abstract class Plane extends Geometry implements Intersectable {
     private Point3D _point;
     private Vector _normal;
     // ***************** Constructors ********************** //

@@ -27,8 +27,9 @@
                 <version>2.22.0</version>
                 <configuration>
                     <excludes>
-                        <exclude>**/AdvanceRenderTest.java</exclude>
+			%regex[.*Render.*]
                     </excludes>
+		    <redirectTestOutputToFile>false</redirectTestOutputToFile>
                 </configuration>
             </plugin>
             <plugin>

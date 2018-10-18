@@ -10,6 +10,7 @@ package com.ud_avi.raytrace.renderer;
 import com.ud_avi.raytrace.geometries.Geometry;
 import com.ud_avi.raytrace.lights.LightSource;
 import com.ud_avi.raytrace.primitives.*;
+import com.ud_avi.raytrace.scene.Grid;
 import com.ud_avi.raytrace.scene.Scene;
 
 import java.util.HashMap;
@@ -27,6 +28,9 @@ public class Render {
     private ImageWriter _imageWriter;
     private Scene _scene;
     private Boolean _multiThread = false;
+    private Boolean _gridOpt = false;
+    private Grid _grid;
+    private double _lambdaGrid = 5.0;
 
     /**
      * GeometryPoint is pair of Geometry and Point
@@ -71,6 +75,36 @@ public class Render {
         _multiThread = multiThread;
     }
 
+    /**
+     * @return if the render is working with grid
+     */
+    public Boolean getGridOpt() {
+        return _gridOpt;
+    }
+
+    /**
+     * @return the lambda factor of the grid
+     */
+    public double getLambdaGrid() {
+        return _lambdaGrid;
+    }
+
+    /**
+     * @param lambdaGrid the lambda factor of the grid [3,5]
+     */
+    public void setLambdaGrid(double lambdaGrid) {
+        _lambdaGrid = lambdaGrid;
+    }
+
+    /**
+     * @param gridOpt set if the render is working with grid
+     */
+    public void setGridOpt(Boolean gridOpt) {
+        _gridOpt = gridOpt;
+        if(gridOpt)
+            _grid = new Grid(_scene.getGeometries(), getLambdaGrid());
+    }
+
     // ***************** Operations ******************** //
 
     /**
@@ -99,7 +133,7 @@ public class Render {
                             //find intersections
                             Map<Ray, GeometryPoint> intersectionsMap = new HashMap<>();
                             for (Ray r : listRays) {
-                                Map<Geometry, List<Point3D>> intersections = _scene.getGeometries().findIntersections(r);
+                                Map<Geometry, List<Point3D>> intersections = _gridOpt ? _grid.findIntersection(r) : _scene.getGeometries().findIntersections(r);
                                 if (!intersections.isEmpty()) {
                                     GeometryPoint closestPoint = getClosestPoint(intersections);
                                     intersectionsMap.put(r, closestPoint);
@@ -132,7 +166,7 @@ public class Render {
                     //find intersections
                     Map<Ray, GeometryPoint> intersectionsMap = new HashMap<>();
                     for (Ray r : listRays) {
-                        Map<Geometry, List<Point3D>> intersections = _scene.getGeometries().findIntersections(r);
+                        Map<Geometry, List<Point3D>> intersections = _gridOpt ? _grid.findIntersection(r) : _scene.getGeometries().findIntersections(r);
                         if (!intersections.isEmpty()) {
                             GeometryPoint closestPoint = getClosestPoint(intersections);
                             intersectionsMap.put(r, closestPoint);
@@ -243,7 +277,7 @@ public class Render {
         }
         //add reflection
         Ray reflectedRay = constructReflectedRay(N, geometryPoint.point, v);
-        Map<Geometry, List<Point3D>> reflectedIntersections = _scene.getGeometries().findIntersections(reflectedRay);
+        Map<Geometry, List<Point3D>> reflectedIntersections = _gridOpt ?_grid.findIntersection(reflectedRay) : _scene.getGeometries().findIntersections(reflectedRay);
         Color reflectedLight = new Color(Color.BLACK);
         if (!reflectedIntersections.isEmpty()) {
             GeometryPoint reflectedPoint = getClosestPoint(reflectedIntersections);
@@ -251,7 +285,7 @@ public class Render {
         }
         //add refraction
         Ray refractedRay = constructRefractedRay(N, geometryPoint.point, v);
-        Map<Geometry, List<Point3D>> refractedIntersections = _scene.getGeometries().findIntersections(refractedRay);
+        Map<Geometry, List<Point3D>> refractedIntersections = _gridOpt ?_grid.findIntersection(refractedRay) : _scene.getGeometries().findIntersections(refractedRay);
         Color refractedLight = new Color(Color.BLACK);
         if (!refractedIntersections.isEmpty()) {
             GeometryPoint refractedPoint = getClosestPoint(refractedIntersections);
@@ -376,8 +410,7 @@ public class Render {
         //shadow ray
         Ray fromObjToLight = new Ray(lightDirection, epsPoint);
         //intersection withe the shadow ray
-        Map<Geometry, List<Point3D>> intersections = _scene.getGeometries().findIntersections(fromObjToLight);
-
+        Map<Geometry, List<Point3D>> intersections = _gridOpt ?_grid.findIntersection(fromObjToLight) : _scene.getGeometries().findIntersections(fromObjToLight);
         //calc the accumulated value of the shadow
         double maxD = lightSource.getDistance(geometryPoint.point);
         double shadowK = 1;

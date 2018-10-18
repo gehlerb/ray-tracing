@@ -83,5 +83,14 @@ public class TriangleTest {
         }
 		return list;
 	}
+    @Test
+    public void testGetMax(){
+
+    }
+
+    @Test
+    public void testGetMin(){
+
+    }
 
 }

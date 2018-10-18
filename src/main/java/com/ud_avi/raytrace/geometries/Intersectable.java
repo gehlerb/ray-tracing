@@ -23,4 +23,14 @@ public interface Intersectable {
 	 * @return Map of intersection points
 	 */
 	Map<Geometry, List<Point3D>> findIntersections(Ray ray);
+
+	/**
+	 * @return the max point of the "Cube" contains the geometry
+	 */
+	Point3D getMax();
+
+	/**
+	 * @return the min point of the "Cube" contains the geometry
+	 */
+	Point3D getMin();
 }

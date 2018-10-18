@@ -15,7 +15,6 @@ import com.ud_avi.raytrace.primitives.*;
 public abstract class Geometry implements Intersectable {
     protected Color _emission;
     protected Material _material;
-
     // ***************** Constructors ********************** //
     /**
      * Constructor

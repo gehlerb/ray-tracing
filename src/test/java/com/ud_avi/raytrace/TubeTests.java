@@ -91,4 +91,14 @@ public class TubeTests {
         }
         return list;
     }
+    @Test
+    public void testGetMax(){
+
+    }
+
+    @Test
+    public void testGetMin(){
+
+    }
+
 }

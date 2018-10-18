@@ -12,12 +12,15 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 
 public class AdvanceRenderTest {
+    private static Logger log = Logger.getLogger(AdvanceRenderTest.class.getName());
 
     @Test
     public void dofTest(){
+        log.info(Thread.currentThread().getStackTrace()[1].getMethodName()+" now running...");
         Scene scene = new Scene("Test mirror");
         scene.setCamera(new Camera(new Point3D(0, -200, -730),new Vector(0, -1, 0), new Vector(0,0,1)));
         //scene.getCamera().rotateX(10);
@@ -30,9 +33,7 @@ public class AdvanceRenderTest {
         scene.setBackgroundColor(new Color(0,0,0));
         scene.setAmbientLight(new AmbientLight(new Color(50, 50, 50), 0.1));
         Geometries geometries = new Geometries();
-        Plane p = new Plane(new Point3D(1, 0, -50),new Point3D(2, 0, 0) ,new Point3D(31, 0, 50),
-                new Color(25, 25, 25),
-                new Material(2, 10, 0.1, 0, 20));
+
         Rectangle rec = new Rectangle(new Point3D(-500, 0, 500),new Point3D(-500, -500, 500) ,new Point3D(500, 0, 500),
                 new Color(70, 50, 60),
                 new Material(1, 1, 0.1, 0, 120));
@@ -64,7 +65,6 @@ public class AdvanceRenderTest {
         geometries.addGeometry(sphere4);
         geometries.addGeometry(sphere5);
 
-        geometries.addGeometry(p);
         geometries.addGeometry(rec);
         //geometries.addGeometry(rec3);
 
@@ -80,7 +80,7 @@ public class AdvanceRenderTest {
         ImageWriter imageWriter = new ImageWriter("focal_effect123A", 500, 500, 500, 500);
         Render testRender = new Render(imageWriter,scene);
         testRender.setMultiThread(true);
-
+        testRender.setGridOpt(true);
             testRender.renderImage();
             testRender.writeToImage();
 
@@ -88,6 +88,7 @@ public class AdvanceRenderTest {
 
     @Test
     public void dofTest2(){
+        log.info(Thread.currentThread().getStackTrace()[1].getMethodName()+" now running...");
         Scene scene = new Scene("Test");
         scene.setCamera(new Camera(new Point3D(0, -500, -930),new Vector(0, -1, 0), new Vector(0,0,1)));
         //scene.getCamera().rotateX(10);
@@ -99,9 +100,7 @@ public class AdvanceRenderTest {
         scene.setBackgroundColor(new Color(0,0,0));
         scene.setAmbientLight(new AmbientLight(new Color(50, 50, 50), 0.1));
         Geometries geometries = new Geometries();
-        Plane p = new Plane(new Point3D(1, 0, -50),new Point3D(2, 0, 0) ,new Point3D(31, 0, 50),
-                new Color(25, 25, 25),
-                new Material(2, 10, 0.1, 0, 20));
+
         Rectangle rec = new Rectangle(new Point3D(-1700, 0, 2000),new Point3D(-1700, -1700, 2000) ,new Point3D(1700, 0, 2000),
                 new Color(70, 50, 60),
                 new Material(1, 1, 0.1, 0, 20));
@@ -135,21 +134,22 @@ public class AdvanceRenderTest {
 
         }
 
-        geometries.addGeometry(p);
         geometries.addGeometry(rec);
         //geometries.addGeometry(rec3);
 
         scene.setGeometries(geometries);
-//        lights.add(new SpotLight(new Color(0,0,200),new Point3D(-100,-50,-70),1,0,0.001,new Vector(0,0,1)));
-//        lights.add(new SpotLight(new Color(0,200,0),new Point3D(170,-90,100),1,0,0.001,new Vector(0,0,1)));
-//        lights.add(new SpotLight(new Color(0,200,0),new Point3D(170,-20,-70),1,0,0.001,new Vector(0,0,1)));
-//        lights.add(new SpotLight(new Color(200,0,0),new Point3D(0,-90,50),1,0,0.001,new Vector(0,0,1)));
-//        lights.add(new SpotLight(new Color(150,150,45),new Point3D(-50,-350,150),1,0,0.001,new Vector(0,0,1)));
-        lights.add(new DirectionalLight(new Color(200,200,200),new Vector(0,-2,1)));
+        lights.add(new SpotLight(new Color(0,0,200),new Point3D(-100,-50,-70),1,0,0.001,new Vector(0,0,1)));
+        lights.add(new SpotLight(new Color(0,200,0),new Point3D(170,-90,100),1,0,0.001,new Vector(0,0,1)));
+        lights.add(new SpotLight(new Color(0,200,0),new Point3D(170,-20,-70),1,0,0.001,new Vector(0,0,1)));
+        lights.add(new SpotLight(new Color(200,0,0),new Point3D(0,-90,50),1,0,0.001,new Vector(0,0,1)));
+        lights.add(new SpotLight(new Color(150,150,45),new Point3D(-50,-350,150),1,0,0.001,new Vector(0,0,1)));
+        //lights.add(new DirectionalLight(new Color(200,200,200),new Vector(0,-2,1)));
         scene.setLightSources(lights);
-        ImageWriter imageWriter = new ImageWriter("Dof_f360fl180A", 500, 500, 500, 500);
+        ImageWriter imageWriter = new ImageWriter("Dof_f360fl180A", 1000, 1000, 1000, 1000);
         Render testRender = new Render(imageWriter,scene);
         testRender.setMultiThread(true);
+        testRender.setLambdaGrid(5);
+        testRender.setGridOpt(true);
 
             testRender.renderImage();
             testRender.writeToImage();
@@ -157,6 +157,8 @@ public class AdvanceRenderTest {
     }
     @Test
     public void treeTest(){
+        log.info(Thread.currentThread().getStackTrace()[1].getMethodName()+" now running...");
+
         Scene scene = new Scene("Test");
         scene.setCamera(new Camera(new Point3D(0, -200, -250),new Vector(0, -1, 0), new Vector(0,0,1)));
         //scene.setCamera(new Camera(new Point3D(0, -300, 60),new Vector(0, 0, -1), new Vector(0,1,0)));
@@ -180,6 +182,7 @@ public class AdvanceRenderTest {
         ImageWriter imageWriter = new ImageWriter("tree", 500, 500, 500, 500);
         Render testRender = new Render(imageWriter,scene);
         testRender.setMultiThread(true);
+        testRender.setGridOpt(true);
 
         testRender.renderImage();
         testRender.writeToImage();
@@ -187,14 +190,16 @@ public class AdvanceRenderTest {
     }
 
     //====extra tests====//
-   // @Test
+    @Test
     public void streetTest(){
+        log.info(Thread.currentThread().getStackTrace()[1].getMethodName()+" now running...");
+
         Scene scene = new Scene("Test");
         Camera camera = new Camera(new Point3D(-270, -280, 710), new Vector(0, -1, 0), new Vector(0, 0, -1));
         camera.rotateY(-20);
         camera.setFocalLength(200);
         camera.setApertureSize(2);
-        camera.setDOF(true);
+       // camera.setDOF(true);
 //        Camera camera = new Camera(new Point3D(-170, -250, -250), new Vector(0, -1, 0), new Vector(0, 0, -1));
 //        camera.rotateY(-90);
        // Camera camera = new Camera(new Point3D(0, -500, -250), new Vector(0, 0, -1), new Vector(0, 1, 0));
@@ -210,8 +215,6 @@ public class AdvanceRenderTest {
         Geometries geometries = new Geometries();
 
         //ground
-        Plane earth = new Plane(new Point3D(-1,0,0),new Point3D(0,0,-1),new Point3D(1,0,0),new Color(63,63,63), new Material(1,1, 0, 0, 2));
-        geometries.addGeometry(earth);
         Color wallsColor1 = new Color(143, 168, 162);
         Color wallsColor2 = new Color(169, 178, 71);
         Color wallsColor3 = new Color(163, 153, 196);
@@ -221,7 +224,7 @@ public class AdvanceRenderTest {
 
         buildBuilding (new Point3D(50,-2,0),
                 2,100,40,122,new Vector(1,-1,-1),geometries,
-                new Boolean[]{true,false}, lightSources,middleWallsColor1,wallsColor1);
+                new Boolean[]{false,false}, lightSources,middleWallsColor1,wallsColor1);
         buildBuilding (new Point3D(50,-2,-137),
                 6,100,40,100,new Vector(1,-1,-1),geometries,
                 new Boolean[]{false,true,false,true,false,true}, lightSources,middleWallsColor2,wallsColor2);
@@ -237,8 +240,8 @@ public class AdvanceRenderTest {
                 new Boolean[]{false,false,false}, lightSources,middleWallsColor1,wallsColor2);
         buildBuilding (new Point3D(-50,-2,-255),
                 4,100,40,100,new Vector(-1,-1,-1),geometries,
-                new Boolean[]{false,true,false,false}, lightSources,middleWallsColor2,wallsColor2);
-
+                new Boolean[]{false,false,false,false}, lightSources,middleWallsColor2,wallsColor2);
+//
         buildRoad(new Point3D(0,0,0),100,355,15,15,4,
                geometries,true, lightSources,false);
         buildRoad(new Point3D(50,0,400),100,355,15,15,4,
@@ -248,7 +251,7 @@ public class AdvanceRenderTest {
         buildRoad(new Point3D(0,0,455),100,355,15,15,4,
                 geometries,true, lightSources,false);
 
-
+//
         buildRoad(new Point3D(50,0,-50),100,355,15,15,4,
                 geometries,true, lightSources,true);
         Rectangle side1 = new Rectangle(new Point3D(-150,-2,0),new Point3D(-375,-2,0),new Point3D(-150,-2,-100),
@@ -281,10 +284,10 @@ public class AdvanceRenderTest {
         scene.setGeometries(geometries);
         scene.setLightSources(lightSources);
 
-        ImageWriter imageWriter = new ImageWriter("streetBigDOFLight", 500, 500, 500, 500);
+        ImageWriter imageWriter = new ImageWriter("streetBigLight", 500, 500, 500, 500);
         Render render = new Render(imageWriter, scene);
         render.setMultiThread(true);
-
+        render.setGridOpt(true);
             render.renderImage();
             render.writeToImage();
 
