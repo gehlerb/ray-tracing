@@ -4,7 +4,9 @@ branches:
   except:
   - travis
 script:
-- travis_wait 60 mvn cobertura:cobertura
+- while sleep 540; do echo "=====[ $SECONDS seconds still running ]====="; done &
+- mvn cobertura:cobertura
+- kill %1
 after_success:
 - bash <(curl -s https://codecov.io/bash)
 env:
