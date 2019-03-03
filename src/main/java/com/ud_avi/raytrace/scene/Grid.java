@@ -140,7 +140,7 @@ public class Grid {
         _voxelIndexMax = convertPointToVoxel(_bbox.getMax());
         _voxelIndexMin = convertPointToVoxel(_bbox.getMin());
 
-        //alocate memory for the grid voxel's
+        //allocate memory for the grid voxel's
         voxelArray = new VoxelIndex[(int)(_gridResX * _gridResY *_gridResZ)];
         // Insert all the geometry in scene into the voxel's
         insertToVoxel(geometries.getGeometriesList());

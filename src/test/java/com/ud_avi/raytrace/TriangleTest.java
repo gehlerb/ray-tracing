@@ -85,12 +85,18 @@ public class TriangleTest {
 	}
     @Test
     public void testGetMax(){
-
+        Triangle triangle = new Triangle(new Point3D(-5,-10,-4), new Point3D(-5,10,-4), new Point3D(5,0,0), Color.WHITE, new Material(500, 0.5, 1, 1, 100));
+        Point3D maxPoint = triangle.getMax();
+        Point3D expectedPoint = new Point3D(5,10,0);
+        assertEquals(expectedPoint, maxPoint);
     }
 
     @Test
     public void testGetMin(){
-
+        Triangle triangle = new Triangle(new Point3D(-5,-10,-4), new Point3D(-5,10,-4), new Point3D(5,0,0), Color.WHITE, new Material(500, 0.5, 1, 1, 100));
+        Point3D minPoint = triangle.getMin();
+        Point3D expectedPoint = new Point3D(-5,-10,-4);
+        assertEquals(expectedPoint, minPoint);
     }
 
 }

@@ -78,12 +78,19 @@ public class SphereTests {
 
     @Test
     public void testGetMax(){
+        Sphere sphere = new Sphere(Color.WHITE, new Point3D(0,0,-7),1,new Material(500,0.5, 1, 1, 100));
+        Point3D maxPoint = sphere.getMax();
+        Point3D expectedPoint = new Point3D(1,1,-6);
+        assertEquals(expectedPoint, maxPoint);
 
     }
 
     @Test
     public void testGetMin(){
-
+        Sphere sphere = new Sphere(Color.WHITE, new Point3D(0,0,-7),1,new Material(500,0.5, 1, 1, 100));
+        Point3D maxPoint = sphere.getMin();
+        Point3D expectedPoint = new Point3D(-1,-1,-8);
+        assertEquals(expectedPoint, maxPoint);
     }
 
 }

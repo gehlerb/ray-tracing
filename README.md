@@ -37,3 +37,6 @@ The more you want your image to be more realistic, you'll have a performance iss
 I chose to implement the Grid method to improve Performance.
 
 ### Examples
+![street](https://github.com/avisoftware/ray-tracing/blob/master/images/advancedStreet.jpg)  
+*The image holds 1529 Geometries and 34 Lights*
+*Runtime with 4 cores and Grid - 111.382 s. without Grid 480.888 s*

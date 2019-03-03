@@ -21,7 +21,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Render is the class that render the image from scene
+ * Render is the class that renderTests the image from scene
  */
 public class Render {
     private static final int MAX_COLOR_LEVEL = 2;
@@ -76,7 +76,7 @@ public class Render {
     }
 
     /**
-     * @return if the render is working with grid
+     * @return if the renderTests is working with grid
      */
     public Boolean getGridOpt() {
         return _gridOpt;
@@ -97,7 +97,7 @@ public class Render {
     }
 
     /**
-     * @param gridOpt set if the render is working with grid
+     * @param gridOpt set if the renderTests is working with grid
      */
     public void setGridOpt(Boolean gridOpt) {
         _gridOpt = gridOpt;

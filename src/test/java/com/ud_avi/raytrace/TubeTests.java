@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-//TODO add real Material for the entire unitTest
 public class TubeTests {
     private Ray ray = new Ray(new Vector(0,5,0),new Point3D(0,0,0));
     private Ray rayN = new Ray(new Vector(0,-5,0),new Point3D(0,0,0));

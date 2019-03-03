@@ -27,7 +27,6 @@
                 <version>2.22.0</version>
                 <configuration>
                     <excludes>
-			%regex[.*Render.*]
                     </excludes>
 		    <redirectTestOutputToFile>false</redirectTestOutputToFile>
                 </configuration>

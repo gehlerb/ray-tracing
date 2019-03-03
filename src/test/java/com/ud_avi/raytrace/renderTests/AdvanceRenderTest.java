@@ -1,298 +1,27 @@
-package com.ud_avi.raytrace;
+package com.ud_avi.raytrace.renderTests;
 
-import com.ud_avi.raytrace.elements.*;
-import com.ud_avi.raytrace.geometries.*;
-import com.ud_avi.raytrace.lights.*;
-import com.ud_avi.raytrace.primitives.*;
-import com.ud_avi.raytrace.renderer.ImageWriter;
-import com.ud_avi.raytrace.renderer.Render;
-import com.ud_avi.raytrace.scene.Scene;
+import com.ud_avi.raytrace.geometries.Geometries;
+import com.ud_avi.raytrace.geometries.Rectangle;
+import com.ud_avi.raytrace.geometries.Sphere;
+import com.ud_avi.raytrace.geometries.Triangle;
+import com.ud_avi.raytrace.lights.LightSource;
+import com.ud_avi.raytrace.lights.PointLight;
+import com.ud_avi.raytrace.lights.SpotLight;
+import com.ud_avi.raytrace.primitives.Color;
+import com.ud_avi.raytrace.primitives.Material;
+import com.ud_avi.raytrace.primitives.Point3D;
+import com.ud_avi.raytrace.primitives.Vector;
 
-import org.junit.Test;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 
 public class AdvanceRenderTest {
-    private static Logger log = Logger.getLogger(AdvanceRenderTest.class.getName());
+    protected static Logger log = Logger.getLogger(AdvanceRenderTest.class.getName());
 
-    @Test
-    public void dofTest(){
-        log.info(Thread.currentThread().getStackTrace()[1].getMethodName()+" now running...");
-        Scene scene = new Scene("Test mirror");
-        scene.setCamera(new Camera(new Point3D(0, -200, -730),new Vector(0, -1, 0), new Vector(0,0,1)));
-        //scene.getCamera().rotateX(10);
-        scene.getCamera().setApertureSize(1.5);
-        scene.getCamera().setNumOfDOFRays(30);
-        scene.getCamera().setFocalLength(80);
-        scene.getCamera().setDOF(true);
-
-        scene.setDistance(700);
-        scene.setBackgroundColor(new Color(0,0,0));
-        scene.setAmbientLight(new AmbientLight(new Color(50, 50, 50), 0.1));
-        Geometries geometries = new Geometries();
-
-        Rectangle rec = new Rectangle(new Point3D(-500, 0, 500),new Point3D(-500, -500, 500) ,new Point3D(500, 0, 500),
-                new Color(70, 50, 60),
-                new Material(1, 1, 0.1, 0, 120));
-
-
-        Sphere sphereRed = new Sphere( new Color(200, 10, 20),new Point3D(-95, -58, 20),45,
-                new Material(3,1,0, 0, 100));
-        Sphere sphereGreen = new Sphere( new Color(0, 200, 20),new Point3D(0, -78, 180),75,
-                new Material(5,5,0, 0, 100));
-        Sphere sphereBlue = new Sphere( new Color(10, 20, 200),new Point3D(170, -98, 290),95,
-                new Material(10,3,0, 0, 100));
-        Sphere sphere1 = new Sphere( new Color(117, 50, 50),new Point3D(170, -38, 50),35,
-                new Material(4,1,0.1, 0, 50));
-        Sphere sphere2 = new Sphere( new Color(35, 54, 84),new Point3D(100, -58, 100),55,
-                new Material(5,2,0, 0.3, 50));
-        Sphere sphere3 = new Sphere( new Color(76, 76, 76),new Point3D(-90, -158, 370),155,
-                new Material(8,4,0.1, 0, 20));
-        Sphere sphere4 = new Sphere( new Color(71, 52, 76),new Point3D(-170, -98, 120),95,
-                new Material(4,1,0.2, 0.2, 50));
-        Sphere sphere5 = new Sphere( new Color(1, 91, 58),new Point3D(0, -38, 20),35,
-                new Material(4,1,0.1, 0, 50));
-
-        geometries.addGeometry(sphereRed);
-        geometries.addGeometry(sphereGreen);
-        geometries.addGeometry(sphereBlue);
-        geometries.addGeometry(sphere1);
-        geometries.addGeometry(sphere2);
-        geometries.addGeometry(sphere3);
-        geometries.addGeometry(sphere4);
-        geometries.addGeometry(sphere5);
-
-        geometries.addGeometry(rec);
-        //geometries.addGeometry(rec3);
-
-        scene.setGeometries(geometries);
-        List<LightSource> lights = new ArrayList<>();
-        lights.add(new SpotLight(new Color(0,0,200),new Point3D(-100,-50,-70),1,0,0.001,new Vector(0,0,1)));
-        lights.add(new SpotLight(new Color(0,200,0),new Point3D(170,-90,100),1,0,0.001,new Vector(0,0,1)));
-        lights.add(new SpotLight(new Color(0,200,0),new Point3D(170,-20,-70),1,0,0.001,new Vector(0,0,1)));
-        lights.add(new SpotLight(new Color(200,0,0),new Point3D(0,-90,50),1,0,0.001,new Vector(0,0,1)));
-        lights.add(new SpotLight(new Color(150,150,45),new Point3D(-50,-350,150),1,0,0.001,new Vector(0,0,1)));
-
-        scene.setLightSources(lights);
-        ImageWriter imageWriter = new ImageWriter("focal_effect123A", 500, 500, 500, 500);
-        Render testRender = new Render(imageWriter,scene);
-        testRender.setMultiThread(true);
-        testRender.setGridOpt(true);
-            testRender.renderImage();
-            testRender.writeToImage();
-
-    }
-
-    @Test
-    public void dofTest2(){
-        log.info(Thread.currentThread().getStackTrace()[1].getMethodName()+" now running...");
-        Scene scene = new Scene("Test");
-        scene.setCamera(new Camera(new Point3D(0, -500, -930),new Vector(0, -1, 0), new Vector(0,0,1)));
-        //scene.getCamera().rotateX(10);
-        scene.getCamera().setApertureSize(0.5);
-        scene.getCamera().setFocalLength(180);
-        scene.getCamera().setDOF(true);
-
-        scene.setDistance(900);
-        scene.setBackgroundColor(new Color(0,0,0));
-        scene.setAmbientLight(new AmbientLight(new Color(50, 50, 50), 0.1));
-        Geometries geometries = new Geometries();
-
-        Rectangle rec = new Rectangle(new Point3D(-1700, 0, 2000),new Point3D(-1700, -1700, 2000) ,new Point3D(1700, 0, 2000),
-                new Color(70, 50, 60),
-                new Material(1, 1, 0.1, 0, 20));
-        List<LightSource> lights = new ArrayList<>();
-
-        double startX = -500;
-        double startZ = -30;
-        double radius = 50;
-        for (int i=1;i<=7;++i){
-            startX += 90 * i;
-            startZ += 90 * i;
-            Sphere sphere1 = new Sphere( new Color(200, 10, 20),new Point3D(startX , -radius-3, startZ ),radius,
-                    new Material(4,1,0, 0, 100));
-            Sphere sphere2 = new Sphere( new Color(10, 70, 200),new Point3D(startX  + radius * 2 , -radius-3, startZ),radius,
-                    new Material(3,1,0, 0, 100));
-            Sphere sphere3 = new Sphere( new Color(152, 70, 200),new Point3D(startX  + radius  , -radius * 2-3, startZ),radius,
-                    new Material(4,1,0.1, 0.4, 100));
-            Sphere sphere11 = new Sphere( new Color(200, 10, 20),new Point3D(startX , -radius*3-3, startZ ),radius,
-                    new Material(3,1,0, 0, 100));
-            Sphere sphere22 = new Sphere( new Color(10, 70, 200),new Point3D(startX  + radius * 2 , -radius*3-3, startZ),radius,
-                    new Material(2,1,0, 0, 100));
-
-            lights.add(new SpotLight(new Color(195,147,141),new Point3D(startX + radius,-radius*4,startZ-50),1,0,0.001,new Vector(0,0,1)));
-            lights.add(new SpotLight(new Color(195,147,141),new Point3D(startX + radius*3,0,startZ-80),1,0,0.001,new Vector(1,0,1)));
-
-            geometries.addGeometry(sphere1);
-            geometries.addGeometry(sphere2);
-            geometries.addGeometry(sphere11);
-            geometries.addGeometry(sphere22);
-            geometries.addGeometry(sphere3);
-
-        }
-
-        geometries.addGeometry(rec);
-        //geometries.addGeometry(rec3);
-
-        scene.setGeometries(geometries);
-        lights.add(new SpotLight(new Color(0,0,200),new Point3D(-100,-50,-70),1,0,0.001,new Vector(0,0,1)));
-        lights.add(new SpotLight(new Color(0,200,0),new Point3D(170,-90,100),1,0,0.001,new Vector(0,0,1)));
-        lights.add(new SpotLight(new Color(0,200,0),new Point3D(170,-20,-70),1,0,0.001,new Vector(0,0,1)));
-        lights.add(new SpotLight(new Color(200,0,0),new Point3D(0,-90,50),1,0,0.001,new Vector(0,0,1)));
-        lights.add(new SpotLight(new Color(150,150,45),new Point3D(-50,-350,150),1,0,0.001,new Vector(0,0,1)));
-        //lights.add(new DirectionalLight(new Color(200,200,200),new Vector(0,-2,1)));
-        scene.setLightSources(lights);
-        ImageWriter imageWriter = new ImageWriter("Dof_f360fl180A", 1000, 1000, 1000, 1000);
-        Render testRender = new Render(imageWriter,scene);
-        testRender.setMultiThread(true);
-        testRender.setLambdaGrid(5);
-        testRender.setGridOpt(true);
-
-            testRender.renderImage();
-            testRender.writeToImage();
-
-    }
-    @Test
-    public void treeTest(){
-        log.info(Thread.currentThread().getStackTrace()[1].getMethodName()+" now running...");
-
-        Scene scene = new Scene("Test");
-        scene.setCamera(new Camera(new Point3D(0, -200, -250),new Vector(0, -1, 0), new Vector(0,0,1)));
-        //scene.setCamera(new Camera(new Point3D(0, -300, 60),new Vector(0, 0, -1), new Vector(0,1,0)));
-
-        //scene.getCamera().rotateX(10);
-        //scene.getCamera().setApertureSize(0.5);
-        //scene.getCamera().setFocalLength(180);
-
-        scene.setDistance(200);
-        scene.setBackgroundColor(new Color(0,0,0));
-        scene.setAmbientLight(new AmbientLight(new Color(50, 50, 50), 0.1));
-
-        Geometries geometries = new Geometries();
-        List<LightSource> lights = new ArrayList<>();
-        scene.setGeometries(geometries);
-        scene.setLightSources(lights);
-        buildTree(new Point3D(0,0,50),60,180,geometries);
-        DirectionalLight directionalLight = new DirectionalLight(new Color(180,190,120),new Vector(1,2,-1));
-        lights.add(directionalLight);
-
-        ImageWriter imageWriter = new ImageWriter("tree", 500, 500, 500, 500);
-        Render testRender = new Render(imageWriter,scene);
-        testRender.setMultiThread(true);
-        testRender.setGridOpt(true);
-
-        testRender.renderImage();
-        testRender.writeToImage();
-
-    }
 
     //====extra tests====//
-    @Test
-    public void streetTest(){
-        log.info(Thread.currentThread().getStackTrace()[1].getMethodName()+" now running...");
-
-        Scene scene = new Scene("Test");
-        Camera camera = new Camera(new Point3D(-270, -280, 710), new Vector(0, -1, 0), new Vector(0, 0, -1));
-        camera.rotateY(-20);
-        camera.setFocalLength(200);
-        camera.setApertureSize(2);
-       // camera.setDOF(true);
-//        Camera camera = new Camera(new Point3D(-170, -250, -250), new Vector(0, -1, 0), new Vector(0, 0, -1));
-//        camera.rotateY(-90);
-       // Camera camera = new Camera(new Point3D(0, -500, -250), new Vector(0, 0, -1), new Vector(0, 1, 0));
-
-        scene.setCamera(camera);
-        scene.setDistance(550);
-        //scene.setBackgroundColor(new Color(135, 206, 235));
-        scene.setBackgroundColor(new Color(0, 0, 0));
-
-        scene.setAmbientLight(new AmbientLight(new Color(50,50,50),0.1));
-
-        List<LightSource> lightSources = new ArrayList<>();
-        Geometries geometries = new Geometries();
-
-        //ground
-        Color wallsColor1 = new Color(143, 168, 162);
-        Color wallsColor2 = new Color(169, 178, 71);
-        Color wallsColor3 = new Color(163, 153, 196);
-
-        Color middleWallsColor1 = new Color(102, 0, 51);
-        Color middleWallsColor2 = new Color(36, 102, 68);
-
-        buildBuilding (new Point3D(50,-2,0),
-                2,100,40,122,new Vector(1,-1,-1),geometries,
-                new Boolean[]{false,false}, lightSources,middleWallsColor1,wallsColor1);
-        buildBuilding (new Point3D(50,-2,-137),
-                6,100,40,100,new Vector(1,-1,-1),geometries,
-                new Boolean[]{false,true,false,true,false,true}, lightSources,middleWallsColor2,wallsColor2);
-        buildBuilding (new Point3D(50,-2,-255),
-                2,100,40,100,new Vector(1,-1,-1),geometries,
-                new Boolean[]{false,true}, lightSources,middleWallsColor1,wallsColor3);
-
-        buildBuilding (new Point3D(-50,-2,0),
-                2,100,40,122,new Vector(-1,-1,-1),geometries,
-                new Boolean[]{false,false}, lightSources,middleWallsColor1,wallsColor3);
-        buildBuilding (new Point3D(-50,-2,-137),
-                3,100,40,100,new Vector(-1,-1,-1),geometries,
-                new Boolean[]{false,false,false}, lightSources,middleWallsColor1,wallsColor2);
-        buildBuilding (new Point3D(-50,-2,-255),
-                4,100,40,100,new Vector(-1,-1,-1),geometries,
-                new Boolean[]{false,false,false,false}, lightSources,middleWallsColor2,wallsColor2);
-//
-        buildRoad(new Point3D(0,0,0),100,355,15,15,4,
-               geometries,true, lightSources,false);
-        buildRoad(new Point3D(50,0,400),100,355,15,15,4,
-                geometries,true, lightSources,true);
-        buildCross(new Point3D(-50,0,0),100,16,2,5,geometries);
-        buildCross(new Point3D(-50,0,-455),100,16,2,5,geometries);
-        buildRoad(new Point3D(0,0,455),100,355,15,15,4,
-                geometries,true, lightSources,false);
-
-//
-        buildRoad(new Point3D(50,0,-50),100,355,15,15,4,
-                geometries,true, lightSources,true);
-        Rectangle side1 = new Rectangle(new Point3D(-150,-2,0),new Point3D(-375,-2,0),new Point3D(-150,-2,-100),
-                new Color(96, 128, 56),new Material(1,1,0,0,2));
-        geometries.addGeometry(side1);
-        buildTree(new Point3D(-190,-2,-25), 20, 50,geometries);
-        buildTree(new Point3D(-220,-2,-70), 20, 50,geometries);
-
-        buildTree(new Point3D(-250,-2,-25), 20, 50,geometries);
-        buildTree(new Point3D(-280,-2,-70), 20, 50,geometries);
-
-        buildTree(new Point3D(-310,-2,-25), 20, 50,geometries);
-        buildTree(new Point3D(-340,-2,-70), 20, 50,geometries);
-
-        Rectangle side2 = new Rectangle(new Point3D(150,-2,0),new Point3D(375,-2,0),new Point3D(150,-2,-100),
-                new Color(96, 128, 56),new Material(1,1,0,0,2));
-        geometries.addGeometry(side2);
-        buildTree(new Point3D(190,-2,-25), 20, 50,geometries);
-        buildTree(new Point3D(220,-2,-70), 20, 50,geometries);
-
-        buildTree(new Point3D(250,-2,-25), 20, 50,geometries);
-        buildTree(new Point3D(280,-2,-70), 20, 50,geometries);
-
-        buildTree(new Point3D(310,-2,-25), 20, 50,geometries);
-        buildTree(new Point3D(340,-2,-70), 20, 50,geometries);
-
-        DirectionalLight directionalLight = new DirectionalLight(new Color(180,190,120).scale(0.2),new Vector(1,2,1));
-        //lightSources.add(directionalLight);
-
-        scene.setGeometries(geometries);
-        scene.setLightSources(lightSources);
-
-        ImageWriter imageWriter = new ImageWriter("streetBigLight", 500, 500, 500, 500);
-        Render render = new Render(imageWriter, scene);
-        render.setMultiThread(true);
-        render.setGridOpt(true);
-            render.renderImage();
-            render.writeToImage();
-
-    }
-    private void buildRoad(Point3D middlePoint, double width, double length, int redLineNumber,int middleLineNumber,
+   protected void buildRoad(Point3D middlePoint, double width, double length, int redLineNumber,int middleLineNumber,
                            int ligthNumber,
                            Geometries geometries, Boolean lights, List<LightSource> lightSources,Boolean latitude){
         double sideWalkWidth = width / 6;
@@ -620,7 +349,7 @@ public class AdvanceRenderTest {
         }
 
     }
-    private void buildCross(Point3D startPoint, double width, double sideWalkWidth, double sideWalkHigh,
+    protected void buildCross(Point3D startPoint, double width, double sideWalkWidth, double sideWalkHigh,
                             int middleLineNumber, Geometries geometries){
 
         double startZ = startPoint.getZ().getCoord();
@@ -903,7 +632,7 @@ public class AdvanceRenderTest {
 
     }
 
-    private void buildBuilding(Point3D startPoint, int numFloors, double width, double floorHigh, double length, Vector direction,
+    protected void buildBuilding(Point3D startPoint, int numFloors, double width, double floorHigh, double length, Vector direction,
                                Geometries geometries, Boolean[] light, List<LightSource> lightSources,
                                Color decoColor,Color wallsColor){
 
@@ -1497,7 +1226,7 @@ public class AdvanceRenderTest {
 
 
 
-    private void buildTree(Point3D startPoint,double width,double high,Geometries geometries){
+    protected void buildTree(Point3D startPoint,double width,double high,Geometries geometries){
 
         double startX = startPoint.getX().getCoord();
         double startY = startPoint.getY().getCoord();

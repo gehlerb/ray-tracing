@@ -20,16 +20,81 @@ import com.ud_avi.raytrace.primitives.Point3D;
 import com.ud_avi.raytrace.primitives.Vector;
 import com.ud_avi.raytrace.renderer.ImageWriter;
 import com.ud_avi.raytrace.renderer.Render;
+import com.ud_avi.raytrace.scene.Grid;
 import com.ud_avi.raytrace.scene.Scene;
 import org.junit.Test;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+
+import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.fail;
 
 
 public class GridTest {
 
     @Test
+    public void testConstructor(){
+
+        Geometries geometries = new Geometries();
+
+        Sphere sphere00 = new Sphere(
+                new Color(10, 70, 200),
+                new Point3D(0, 0, 50),50,
+                new Material(2,1,0, 0.9, 2));
+        Sphere sphere01 = new Sphere(
+                new Color(150, 70, 200),
+                new Point3D(0, 0, -50),50,
+                new Material(2,1,0, 0, 2));
+        Sphere sphere10 = new Sphere(
+                new Color(48, 240, 48),
+                new Point3D(150, 0, 50),50,
+                new Material(2,1,0, 0, 2));
+        Sphere sphere11 = new Sphere(
+                new Color(180, 180, 200),
+                new Point3D(150, 0, -150),50,
+                new Material(2,1,0, 0, 2));
+
+        geometries.addGeometry(sphere00);
+        geometries.addGeometry(sphere01);
+        geometries.addGeometry(sphere10);
+        geometries.addGeometry(sphere11);
+
+        Grid grid = new Grid(geometries,3);
+        try {
+            //get the private fields
+            Field voxelArray = grid.getClass().getDeclaredField("voxelArray");
+            voxelArray.setAccessible(true);
+
+            Object [] arr = (Object []) voxelArray.get(grid);
+
+            for(int i = 0;i<arr.length; ++i){
+                if(arr[i] == null) {
+                    continue;
+                }
+                Field _geometries = arr[i].getClass().getDeclaredField("_geometries");
+                _geometries.setAccessible(true);
+                Geometries g1 = (Geometries) _geometries.get(arr[i]);
+                if(i==1||i==2||i==3||i==5)
+                    assertEquals(1, g1.namOfGeometries());
+                else
+                    assertEquals(2, g1.namOfGeometries());
+
+            }
+        }catch (Exception e){
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testIntersections() {
+
+
+    }
+    //TODO: fix this test
+    //@Test
     public void basicGridTest(){
 
         Scene scene = new Scene("Test");
